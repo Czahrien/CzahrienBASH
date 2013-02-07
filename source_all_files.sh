@@ -7,3 +7,6 @@ cd -
 
 # source the files
 . $GITDIR/bashrc
+
+# source a machine-specific file
+[[ -e $GITDIR/bashrc_$HOSTNAME ]] && . $GITDIR/bashrc_$HOSTNAME
