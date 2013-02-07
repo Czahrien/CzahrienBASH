@@ -1,9 +1,12 @@
+# Set the editor to something that does not suck
+EDITOR=vi
+
 # don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
 # ** matches all files and zero or more directories
 shopt -s globstar
 # check the window size after each command and, if necessary,
@@ -14,7 +17,11 @@ shopt -s checkwinsize
 HISTSIZE=10000
 HISTFILESIZE=20000
 
+#set some extra search paths
+PATH=$PATH:$HOME/bin:$HOME/scripts
+
 # aliases
+alias rm='rm -I'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -94,14 +101,16 @@ function parse_exit_status {
 function prompt_func()
 {
     EXIT_STATUS=$?
-    PS1="${GREEN}\\u${COLOR_NONE}@${RED}\\h${COLOR_NONE}:${WHITE}\\w$(parse_git_branch)$(parse_exit_status ${EXIT_STATUS})\\$ "
+    PS1="${WHITE}[${LIGHT_BLUE}\\u${WHITE}@${LIGHT_YELLOW}\\h${WHITE}]:${RED}\\w$(parse_git_branch)$(parse_exit_status ${EXIT_STATUS})\\$ "
 }
 
 if [[ -n $color_prompt ]]; then
     RED="\[\033[0;31m\]"
     YELLOW="\[\033[0;33m\]"
+    LIGHT_YELLOW="\[\033[1;33m\]"
     GREEN="\[\033[0;32m\]"
     BLUE="\[\033[0;34m\]"
+    LIGHT_BLUE="\[\033[1;34m\]"
     LIGHT_RED="\[\033[1;31m\]"
     LIGHT_GREEN="\[\033[1;32m\]"
     WHITE="\[\033[1;37m\]"
