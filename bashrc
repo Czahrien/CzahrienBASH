@@ -68,28 +68,15 @@ function parse_git_branch {
 EXIT_CODE[0]='SUCCESS'
 EXIT_CODE[1]='FAIL'
 EXIT_CODE[2]='MISUSE'
+EXIT_CODE[127]='CMD_NOT_FOUND'
+EXIT_CODE[128]='INVALID_EXIT'
+EXIT_CODE[255]='EXIT_OUT_OF_RANGE'
 
 # extract system defined exit statuses from /usr/include/sysexits.h
 . <(grep "#define EX_[^_]" /usr/include/sysexits.h | awk '{ print "EXIT_CODE[" $3 "]="$2 }')
+# extract signals from kill -l and create exit statuses out of them
+. <(kill -l | tr '\t' '\n' | awk '{ if(NF==2) print "EXIT_CODE[" ($1+128) "]=" $2 }')
 
-EXIT_CODE[127]='CMD_NOT_FOUND'
-EXIT_CODE[128]='INVALID_EXIT'
-EXIT_CODE[129]='SIGHUP'
-EXIT_CODE[130]='SIGINT'
-EXIT_CODE[131]='SIGQUIT'
-EXIT_CODE[132]='SIGILL'
-EXIT_CODE[133]='SIGTRAP'
-EXIT_CODE[134]='SIGABRT'
-EXIT_CODE[135]='SIGBUS'
-EXIT_CODE[136]='SIGFPE'
-EXIT_CODE[137]='SIGKILL'
-EXIT_CODE[138]='SIGUSR1'
-EXIT_CODE[139]='SIGSEGV'
-EXIT_CODE[140]='SIGUSR2'
-EXIT_CODE[141]='SIGPIPE'
-EXIT_CODE[142]='SIGALRM'
-EXIT_CODE[143]='SIGTERM'
-EXIT_CODE[255]='EXIT_OUT_OF_RANGE'
 
 function parse_exit_status {
     if [[ $1 != 0 ]]; then
