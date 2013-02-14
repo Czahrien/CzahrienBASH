@@ -17,6 +17,16 @@ shopt -s checkwinsize
 HISTSIZE=10000
 HISTFILESIZE=20000
 
+# Setup tty-specific history files
+ttyname=$(tty)  # set up separate history files for each login
+HISTFILE=$HOME/.sh_history/$(date +%m%d%Y).${ttyname##*/}
+
+# Setup a machine specific bin directory in the search path
+if [[ -a "$(which uname)" ]]; then
+    PATH=$PATH:$HOME/mach_bin/$(uname -s)/$(uname -m)
+fi
+
+
 #set some extra search paths
 PATH=$PATH:$HOME/bin:$HOME/scripts
 
