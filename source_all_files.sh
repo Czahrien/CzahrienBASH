@@ -1,5 +1,4 @@
 GITDIR=$(readlink -f $(dirname ${BASH_SOURCE}))
-echo ${BASH_SOURCE}
 
 # pull the latest copy of the files
 cd $GITDIR
