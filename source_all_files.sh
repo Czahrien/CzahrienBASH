@@ -1,4 +1,5 @@
-GITDIR=$(readlink -f ${BASH_SOURCE%/*})
+GITDIR=$(readlink -f $(dirname ${BASH_SOURCE}))
+echo ${BASH_SOURCE}
 
 # pull the latest copy of the files
 cd $GITDIR
@@ -16,7 +17,7 @@ if [[ -e $GITDIR/bashrc_$HOSTNAME ]]; then
 fi
 
 #make links to resource file.
-for file in $(ls $GITDIR/resource_*); do
+for file in $(ls $GITDIR/resource_* 2> /dev/null); do
   if [[ ! -e ~/${file#*/resource_} ]]; then
     echo No ${file#*/resource_} present in $HOME. Creating a link to $file.
     ln -s $file ~/${file#*/resource_}

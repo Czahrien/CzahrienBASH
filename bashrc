@@ -30,15 +30,6 @@ fi
 #set some extra search paths
 PATH=$PATH:$HOME/bin:$HOME/scripts
 
-# aliases
-alias rm='rm -I'
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-
 # custom stuff
 set -o vi
 
