@@ -1,0 +1,28 @@
+[user]
+	name = Benjamin Mayes
+	email = bmaye@retrotech.com
+[credential]
+	helper = cache --timeout=99999
+[diff]
+        tool = meld
+[merge]
+        tool = mmeld
+[mergetool "mmeld"]
+	cmd = meld $LOCAL $BASE $REMOTE $MERGED
+[alias]
+	ci = commit
+	co = checkout
+        lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        bu = "!f() { git push --set-upstream origin $1; }; f"
+        bd = "!f() { git push origin --delete $1; }; f"
+        br = branch
+        cia = "!f() { git commit -a; }; f"
+        frp = 'git fetch origin && git rebase -p origin/$(git_current_branch)'
+        mnf = 'git merge --no-ff'
+        s = status
+        pr = pull --rebase
+[push]
+	default = upstream
+[hub]
+        host = git.fish.retrotech.com
+        http-clone = true

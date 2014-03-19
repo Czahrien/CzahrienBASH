@@ -1,25 +1,36 @@
-if [[ $(tty) != "not a tty" ]]; then
-    GITDIR=$(readlink -f $(dirname ${BASH_SOURCE}))
-    # pull the latest copy of the files
-    cd $GITDIR
-    git pull origin master
-    cd - > /dev/null
+# If you insist on running this script directly, it will only work if run
+# one of the following ways:
+# $ . source_all_files.sh
+# $ source source_all_files.sh
 
-    # source the files
+# we only really care about this stuff if we have an interactive terminal
+tty > /dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    GITDIR=$(readlink -f $(dirname ${BASH_SOURCE}))
+
+# pull the latest copy of the files if this is a login shell
+if shopt -q login_shell; then
+    ( cd $GITDIR; git pull origin master )
+fi
+
+# source the files
     . $GITDIR/bashrc
     . $GITDIR/funcs
     . $GITDIR/aliases
 
-    # source a machine-specific file
-    if [[ -e $GITDIR/bashrc_$HOSTNAME ]]; then
-        . $GITDIR/bashrc_$HOSTNAME
-    fi
+# source a machine-specific file
+    [[ -e $GITDIR/bashrc_$HOSTNAME ]] && . $GITDIR/bashrc_$HOSTNAME
+    [[ -e $GITDIR/project_$HOSTNAME ]] && . $GITDIR/project_$HOSTNAME
 
-    #make links to resource file.
-    for file in $(ls $GITDIR/resource_* 2> /dev/null); do
-      if [[ ! -e ~/${file#*/resource_} ]]; then
-        echo No ${file#*/resource_} present in $HOME. Creating a link to $file.
-        ln -s $file ~/${file#*/resource_}
-      fi
+# make links to resource files
+    for file in `ls $GITDIR/resource_*`; do
+        if [[ ! -e ~/${file#*/resource_} ]]; then
+            echo No ${file#*/resource_} present in $HOME.
+            ln -s $file ~/${file#*/resource_}
+        fi
     done
+
+    if [[ ! -e $HOME/sqlbin && -n "$ORACLE_HOME" ]]; then
+        ln -s $GITDIR/sqlbin ~/sqlbin
+    fi
 fi

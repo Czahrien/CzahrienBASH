@@ -1,4 +1,5 @@
-alias rm='rm -I'
+alias git-tree="git log --graph --simplify-by-decoration --pretty=format:'%d' --all"
+alias rm='rm -i'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
