@@ -26,3 +26,5 @@
 [hub]
         host = git.fish.retrotech.com
         http-clone = true
+[core]
+	excludesfile = /home/bmaye/.gitignore_global

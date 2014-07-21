@@ -1,0 +1,3 @@
+vimfile() {
+    vim `find ${PROJ_PATH%/*} -iname "$1*.[ch]"`
+}

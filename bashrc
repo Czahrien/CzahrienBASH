@@ -1,5 +1,9 @@
 set -o vi
 
+export PATH=$HOME/opt/bin:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/opt/lib
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:$HOME/opt/include
+export MANPATH=$MANPATH:$HOME/opt/share
 export EDITOR=vim
 
 # User specific aliases and functions
@@ -42,12 +46,14 @@ function parse_git_branch {
 
 function prompt_func() {
     previous_return_value=$?;
-    prompt="${BLUE}[${RED}\w${GREEN}$(parse_git_branch)${BLUE}]${COLOR_NONE} "
+    DIRECTORY_STRING="${PWD#${PWD%/*/*}/}"
+#DIRECTORY_STRING="\w"
+    prompt="${BLUE}[${RED}${DIRECTORY_STRING}${GREEN}$(parse_git_branch)${BLUE}]${COLOR_NONE} "
     if test $previous_return_value -eq 0
     then
-        PS1="${HOSTNAME}:${prompt}-> "
+        PS1="${HOSTNAME%%.*}:${prompt}-> "
     else
-        PS1="${HOSTNAME}:${prompt}${RED}->${COLOR_NONE} "
+        PS1="${HOSTNAME%%.*}:${prompt}${RED}->${COLOR_NONE} "
     fi
 }
 

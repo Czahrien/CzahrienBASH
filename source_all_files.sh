@@ -21,16 +21,14 @@ fi
 # source a machine-specific file
     [[ -e $GITDIR/bashrc_$HOSTNAME ]] && . $GITDIR/bashrc_$HOSTNAME
     [[ -e $GITDIR/project_$HOSTNAME ]] && . $GITDIR/project_$HOSTNAME
+    [[ -e $GITDIR/project_${HOSTNAME%%.*} ]] && . $GITDIR/project_${HOSTNAME%%.*}
 
 # make links to resource files
-    for file in `ls $GITDIR/resource_*`; do
+    FILES=( $GITDIR/resource_* )
+    for file in "${FILES[@]}"; do
         if [[ ! -e ~/${file#*/resource_} ]]; then
-            echo No ${file#*/resource_} present in $HOME.
+            echo No ${file#*/resource_} present in $HOME. Creating symbolic link to $file
             ln -s $file ~/${file#*/resource_}
         fi
     done
-
-    if [[ ! -e $HOME/sqlbin && -n "$ORACLE_HOME" ]]; then
-        ln -s $GITDIR/sqlbin ~/sqlbin
-    fi
 fi
