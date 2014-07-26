@@ -1,6 +1,6 @@
 set -o vi
 
-export PATH=$HOME/opt/bin:$PATH
+export PATH=$HOME/opt/bin:$HOME/opt/script:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/opt/lib
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:$HOME/opt/include
 export MANPATH=$MANPATH:$HOME/opt/share
